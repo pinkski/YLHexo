@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从web看native的MVVM（一） | yolynn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##背景
+
+  随着前端技术的在开发工作中的角色越来越重要，需求量也越来越大，那么高效率的框架也应运而生，过去script方式已进化为MVC，现在我们是否应该顺应潮流推动MVC进化到MVVM呢？（MVP）
+
+##介绍
+
+web与native的组成对比
+web : html + css + js
+android : 四大组件(activity、service、broadcase receiver、c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从web看native的MVVM（一）">
+<meta property="og:url" content="http://yolynn.com/2015/09/22/MVVM/index.html">
+<meta property="og:site_name" content="yolynn">
+<meta property="og:description" content="##背景
+
+  随着前端技术的在开发工作中的角色越来越重要，需求量也越来越大，那么高效率的框架也应运而生，过去script方式已进化为MVC，现在我们是否应该顺应潮流推动MVC进化到MVVM呢？（MVP）
+
+##介绍
+
+web与native的组成对比
+web : html + css + js
+android : 四大组件(activity、service、broadcase receiver、c">
+<meta property="og:updated_time" content="2015-11-06T16:11:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从web看native的MVVM（一）">
+<meta name="twitter:description" content="##背景
+
+  随着前端技术的在开发工作中的角色越来越重要，需求量也越来越大，那么高效率的框架也应运而生，过去script方式已进化为MVC，现在我们是否应该顺应潮流推动MVC进化到MVVM呢？（MVP）
+
+##介绍
+
+web与native的组成对比
+web : html + css + js
+android : 四大组件(activity、service、broadcase receiver、c">
+  
+    <link rel="alternative" href="/atom.xml" title="yolynn" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://img0.imgtn.bdimg.com/it/u=705865950,2121125406&amp;fm=21&amp;gp=0.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">yolynn</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">yolynn&#39;s blog</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/zxl20zxl" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/zxl20zxl" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="http://zxl20zxl@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/web/" style="font-size: 10px;">web</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">一头只爱小懒滴猪，在全栈的路上狂奔…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">yolynn</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://img0.imgtn.bdimg.com/it/u=705865950,2121125406&amp;fm=21&amp;gp=0.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">yolynn</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">yolynn&#39;s blog</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/zxl20zxl" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/zxl20zxl" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="http://zxl20zxl@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-MVVM" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/22/MVVM/" class="article-date">
+  	<time datetime="2015-09-22T15:14:02.000Z" itemprop="datePublished">2015-09-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从web看native的MVVM（一）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##背景</p>
+<blockquote>
+<p>  随着前端技术的在开发工作中的角色越来越重要，需求量也越来越大，那么高效率的框架也应运而生，过去script方式已进化为MVC，现在我们是否应该顺应潮流推动MVC进化到MVVM呢？（MVP）</p>
+</blockquote>
+<p>##介绍</p>
+<ol>
+<li>web与native的组成对比<ul>
+<li>web : html + css + js</li>
+<li>android : 四大组件(activity、service、broadcase receiver、content provider)和五大布局(LinearLayout、FrameLayout、RelativeLayout、AbsoluteLayout、TableLayout) 还有 java (data binding library)</li>
+<li>iOS : xib/storyboard + oc/swift   </li>
+<li>react(react.js、react canvas、react native)  </li>
+</ul>
+</li>
+<li>web前端常用的MVVM主流框架<ul>
+<li>handlebars.js、knockout.js、ember.js、avalon.js、angular.js </li>
+<li>backbone.js?, react.js?</li>
+</ul>
+</li>
+<li>angularJS的核心功能<ul>
+<li>自动化双向数据绑定、模块化/组件化、依赖注入、语义化标签等</li>
+</ul>
+</li>
+<li>angularJS的原理<ul>
+<li>首先，浏览器会一直处于监听状态，一旦有事件被触发，就会被加到一个event queue中，event queue中的事件会一个一个的执行。</li>
+<li>event queue中的事件如果是被$apply()包起来的话，就会进入到AngularJS的context中，假设的fn()是我们希望在AngularJS的context中执行的函数。</li>
+<li>AngularJS将执行fn()函数，通常情况下，这个函数会改变应用的某些状态。</li>
+<li>然后AngularJS会进入到由两个小循环组成的digest循环中，一个循环是用来处理evalAsync队列（用来schedule一些需要在渲染视图之前处理的操作，通常通过setTimeout(0)实现，速度会比较慢，可能会出现视图抖动的问题）的，一个循环是处理watch列表（是一些表达式的集合，一旦有改变发生，那么watch函数就会被调用）的。digest循环会一直迭代知道evalAsync队列为空并且$watch列表也为空的时候，即model不再有任何变化。</li>
+<li>一旦AngularJS的$digest循环结束，整个执行就会离开AngularJS和Javascript的context，紧接着浏览器就会把数据改变后的视图重新渲染出来。</li>
+</ul>
+</li>
+<li>iOS常用的MVVM框架<ul>
+<li>KVO  reactiveCocoa</li>
+</ul>
+</li>
+<li>reactiveCocoa的核心功能<ul>
+<li>自动化双向数据绑定、模块化/组件化(?)、依赖注入(无)、语义化标签(?)等</li>
+<li>像KVO,但它用blocks代替了重写-observeValueForKeyPath:ofObject:change:context:</li>
+<li>提供了一个单一的，统一的方法去处理异步的行为,包括delegate方法,blocks回调,target-action机制,notifications和KVO.</li>
+</ul>
+</li>
+<li>reactiveCocoa的原理<ul>
+<li>RACSignal发送事件流给它的subscriber。目前总共有三种类型的事件：next、error、completed。</li>
+<li>RACSignal有很多方法可以来订阅不同的事件类型。每个方法都需要至少一个block，当事件发生时就会执行block中的逻辑。</li>
+<li>使用category来为很多基本UIKit控件添加signal。这样你就能给控件添加订阅了，text field的rac_textSignal就是这么来的。</li>
+</ul>
+</li>
+<li>angularJS与reactiveCocoa的对比<ul>
+<li>核心功能对比</li>
+<li>实现原理对比</li>
+<li>实际运用对比</li>
+</ul>
+</li>
+</ol>
+<p>##总结</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2013/04/12/web_first/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅析web程序性能优化</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="MVVM" data-title="从web看native的MVVM（一）" data-url="http://yolynn.com/2015/09/22/MVVM/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 yolynn
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

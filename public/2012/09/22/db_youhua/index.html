@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据库优化之我见 | yolynn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1、调整数据结构的设计。这一部分在开发信息系统之前完成，程序员需要考虑是否使用ORACLE数据库的分区功能，对于经常访问的数据库表是否需要建立索引等。 
+2、调整应用程序结构设计。这一部分也是在开发信息系统之前完成，程序员在这一步需要考虑应用程序使用什么样的体系结构，是使用传统的Client/Server两层体系结构，还是使用Browser/Web/Database的三层体系结构。不同的应用程序体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库优化之我见">
+<meta property="og:url" content="http://yolynn.com/2012/09/22/db_youhua/index.html">
+<meta property="og:site_name" content="yolynn">
+<meta property="og:description" content="1、调整数据结构的设计。这一部分在开发信息系统之前完成，程序员需要考虑是否使用ORACLE数据库的分区功能，对于经常访问的数据库表是否需要建立索引等。 
+2、调整应用程序结构设计。这一部分也是在开发信息系统之前完成，程序员在这一步需要考虑应用程序使用什么样的体系结构，是使用传统的Client/Server两层体系结构，还是使用Browser/Web/Database的三层体系结构。不同的应用程序体">
+<meta property="og:updated_time" content="2015-11-06T15:50:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库优化之我见">
+<meta name="twitter:description" content="1、调整数据结构的设计。这一部分在开发信息系统之前完成，程序员需要考虑是否使用ORACLE数据库的分区功能，对于经常访问的数据库表是否需要建立索引等。 
+2、调整应用程序结构设计。这一部分也是在开发信息系统之前完成，程序员在这一步需要考虑应用程序使用什么样的体系结构，是使用传统的Client/Server两层体系结构，还是使用Browser/Web/Database的三层体系结构。不同的应用程序体">
+  
+    <link rel="alternative" href="/atom.xml" title="yolynn" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://img0.imgtn.bdimg.com/it/u=705865950,2121125406&amp;fm=21&amp;gp=0.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">yolynn</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">yolynn&#39;s blog</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/zxl20zxl" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/zxl20zxl" title="weibo">weibo</a>
+					        
+								<a class="mail" target="_blank" href="http://zxl20zxl@gmail.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/web/" style="font-size: 10px;">web</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">一头只爱小懒滴猪，在全栈的路上狂奔…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">yolynn</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://img0.imgtn.bdimg.com/it/u=705865950,2121125406&amp;fm=21&amp;gp=0.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">yolynn</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">yolynn&#39;s blog</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/zxl20zxl" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/zxl20zxl" title="weibo">weibo</a>
+			        
+						<a class="mail" target="_blank" href="http://zxl20zxl@gmail.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-db_youhua" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2012/09/22/db_youhua/" class="article-date">
+  	<time datetime="2012-09-22T15:14:02.000Z" itemprop="datePublished">2012-09-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库优化之我见
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、调整数据结构的设计。这一部分在开发信息系统之前完成，程序员需要考虑是否使用ORACLE数据库的分区功能，对于经常访问的数据库表是否需要建立索引等。 </p>
+<p>2、调整应用程序结构设计。这一部分也是在开发信息系统之前完成，程序员在这一步需要考虑应用程序使用什么样的体系结构，是使用传统的Client/Server两层体系结构，还是使用Browser/Web/Database的三层体系结构。不同的应用程序体系结构要求的数据库资源是不同的。 </p>
+<p>3、调整数据库SQL语句。应用程序的执行最终将归结为数据库中的SQL语句执行，因此SQL语句的执行效率最终决定了ORACLE数据库的性能。ORACLE公司推荐使用ORACLE语句优化器（Oracle Optimizer）和行锁管理器（row-level manager）来调整优化SQL语句。 </p>
+<p>4、调整服务器内存分配。内存分配是在信息系统运行过程中优化配置的，数据库管理员可以根据数据库运行状况调整数据库系统全局区（SGA区）的数据缓冲区、日志缓冲区和共享池的大小；还可以调整程序全局区（PGA区）的大小。需要注意的是，SGA区不是越大越好，SGA区过大会占用操作系统使用的内存而引起虚拟内存的页面交换，这样反而会降低系统。 </p>
+<p>5、调整硬盘I/O，这一步是在信息系统开发之前完成的。数据库管理员可以将组成同一个表空间的数据文件放在不同的硬盘上，做到硬盘之间I/O负载均衡。 </p>
+<p>6、6、调整操作系统参数，例如：运行在UNIX操作系统上的ORACLE数据库，可以调整UNIX数据缓冲池的大小，每个进程所能使用的内存大小等参数。 </p>
+<p>实际上，上述数据库优化措施之间是相互联系的。ORACLE数据库性能恶化表现基本上都是用户响应时间比较长，需要用户长时间的等待。但性能恶化的原因却是多种多样的，有时是多个因素共同造成了性能恶化的结果，这就需要数据库管理员有比较全面的计算机知识，能够敏感地察觉到影响数据库性能的主要原因所在。另外，良好的数据库管理工具对于优化数据库性能也是很重要的。 </p>
+<p>ORACLE数据库性能优化工具 </p>
+<p>常用的数据库性能优化工具有： </p>
+<p>1、ORACLE数据库在线数据字典，ORACLE在线数据字典能够反映出ORACLE动态运行情况，对于调整数据库性能是很有帮助的。 </p>
+<p>2、操作系统工具，例如UNIX操作系统的vmstat，iostat等命令可以查看到系统系统级内存和硬盘I/O的使用情况，这些工具对于管理员弄清出系统瓶颈出现在什么地方有时候很有用。 </p>
+<p>3、SQL语言跟踪工具（SQL TRACE FACILITY），SQL语言跟踪工具可以记录SQL语句的执行情况，管理员可以使用虚拟表来调整实例，使用SQL语句跟踪文件调整应用程序性能。SQL语言跟踪工具将结果输出成一个操作系统的文件，管理员可以使用TKPROF工具查看这些文件。 </p>
+<p>4、ORACLE Enterprise Manager（OEM），这是一个图形的用户管理界面，用户可以使用它方便地进行数据库管理而不必记住复杂的ORACLE数据库管理的命令。 </p>
+<p>5、EXPLAIN PLAN——SQL语言优化命令，使用这个命令可以帮助程序员写出高效的SQL语言。 </p>
+<p>ORACLE数据库的系统性能评估 </p>
+<p>信息系统的类型不同，需要关注的数据库参数也是不同的。数据库管理员需要根据自己的信息系统的类型着重考虑不同的数据库参数。 </p>
+<p>1、在线事务处理信息系统（OLTP），这种类型的信息系统一般需要有大量的Insert、Update操作，典型的系统包括民航机票发售系统、银行储蓄系统等。OLTP系统需要保证数据库的并发性、可靠性和最终用户的速度，这类系统使用的ORACLE数据库需要主要考虑下述参数： </p>
+<p>l     l     数据库回滚段是否足够？ </p>
+<p>l     l     是否需要建立ORACLE数据库索引、聚集、散列？ </p>
+<p>l     l     系统全局区（SGA）大小是否足够？ </p>
+<p>l     l     SQL语句是否高效？ </p>
+<p>2、数据仓库系统（Data Warehousing），这种信息系统的主要任务是从ORACLE的海量数据中进行查询，得到数据之间的某些规律。数据库管理员需要为这种类型的ORACLE数据库着重考虑下述参数： </p>
+<p>l     l     是否采用B*-索引或者bitmap索引？ </p>
+<p>l     l     是否采用并行SQL查询以提高查询效率？ </p>
+<p>l     l     是否采用PL/SQL函数编写存储过程？ </p>
+<p>l     l     有必要的话，需要建立并行数据库提高数据库的查询效率 </p>
+<p>SQL语句的调整原则 </p>
+<p>SQL语言是一种灵活的语言，相同的功能可以使用不同的语句来实现，但是语句的执行效率是很不相同的。程序员可以使用EXPLAIN PLAN语句来比较各种实现方案，并选出最优的实现方案。总得来讲，程序员写SQL语句需要满足考虑如下规则： </p>
+<p>1、尽量使用索引。试比较下面两条SQL语句： </p>
+<p>语句A：SELECT dname, deptno FROM dept WHERE deptno NOT IN  </p>
+<p>(SELECT deptno FROM emp); </p>
+<p>语句B：SELECT dname, deptno FROM dept WHERE NOT EXISTS </p>
+<p>(SELECT deptno FROM emp WHERE dept.deptno = emp.deptno); </p>
+<p>这两条查询语句实现的结果是相同的，但是执行语句A的时候，ORACLE会对整个emp表进行扫描，没有使用建立在emp表上的deptno索引，执行语句B的时候，由于在子查询中使用了联合查询，ORACLE只是对emp表进行的部分数据扫描，并利用了deptno列的索引，所以语句B的效率要比语句A的效率高一些。 </p>
+<p>2、选择联合查询的联合次序。考虑下面的例子： </p>
+<p>SELECT stuff FROM taba a, tabb b, tabc c </p>
+<p>WHERE a.acol between :alow and :ahigh </p>
+<p>AND b.bcol between :blow and :bhigh </p>
+<p>AND c.ccol between :clow and :chigh </p>
+<p>AND a.key1 = b.key1 </p>
+<p>AMD a.key2 = c.key2; </p>
+<p>这个SQL例子中，程序员首先需要选择要查询的主表，因为主表要进行整个表数据的扫描，所以主表应该数据量最小，所以例子中表A的acol列的范围应该比表B和表C相应列的范围小。 </p>
+<p>3、在子查询中慎重使用IN或者NOT IN语句，使用where (NOT) exists的效果要好的多。 </p>
+<p>4、慎重使用视图的联合查询，尤其是比较复杂的视图之间的联合查询。一般对视图的查询最好都分解为对数据表的直接查询效果要好一些。 </p>
+<p>5、可以在参数文件中设置SHARED_POOL_RESERVED_SIZE参数，这个参数在SGA共享池中保留一个连续的内存空间，连续的内存空间有益于存放大的SQL程序包。 </p>
+<p>6、ORACLE公司提供的DBMS_SHARED_POOL程序可以帮助程序员将某些经常使用的存储过程“钉”在SQL区中而不被换出内存，程序员对于经常使用并且占用内存很多的存储过程“钉”到内存中有利于提高最终用户的响应时间。 </p>
+<p>CPU参数的调整 </p>
+<p>CPU是服务器的一项重要资源，服务器良好的工作状态是在工作高峰时CPU的使用率在90％以上。如果空闲时间CPU使用率就在90％以上，说明服务器缺乏CPU资源，如果工作高峰时CPU使用率仍然很低，说明服务器CPU资源还比较富余。 </p>
+<p>使用操作相同命令可以看到CPU的使用情况，一般UNIX操作系统的服务器，可以使用sar –u命令查看CPU的使用率，NT操作系统的服务器，可以使用NT的性能管理器来查看CPU的使用率。 </p>
+<p>数据库管理员可以通过查看v$sysstat数据字典中“CPU used by this session”统计项得知ORACLE数据库使用的CPU时间，查看“OS User level CPU time”统计项得知操作系统用户态下的CPU时间，查看“OS System call CPU time”统计项得知操作系统系统态下的CPU时间，操作系统总的CPU时间就是用户态和系统态时间之和，如果ORACLE数据库使用的CPU时间占操作系统总的CPU时间90％以上，说明服务器CPU基本上被ORACLE数据库使用着，这是合理，反之，说明服务器CPU被其它程序占用过多，ORACLE数据库无法得到更多的CPU时间。 </p>
+<p>数据库管理员还可以通过查看v$sesstat数据字典来获得当前连接ORACLE数据库各个会话占用的CPU时间，从而得知什么会话耗用服务器CPU比较多。 </p>
+<p>出现CPU资源不足的情况是很多的：SQL语句的重解析、低效率的SQL语句、锁冲突都会引起CPU资源不足。 </p>
+<p>1、数据库管理员可以执行下述语句来查看SQL语句的解析情况： </p>
+<p>SELECT * FROM V$SYSSTAT </p>
+<p>WHERE NAME IN </p>
+<p>(‘parse time cpu’, ‘parse time elapsed’, ‘parse count (hard)’); </p>
+<p>这里parse time cpu是系统服务时间，parse time elapsed是响应时间，用户等待时间 </p>
+<p>waite time = parse time elapsed – parse time cpu </p>
+<p>由此可以得到用户SQL语句平均解析等待时间＝waite time / parse count。这个平均等待时间应该接近于0，如果平均解析等待时间过长，数据库管理员可以通过下述语句 </p>
+<p>SELECT SQL_TEXT, PARSE_CALLS, EXECUTIONS FROM V$SQLAREA </p>
+<p>ORDER BY PARSE_CALLS; </p>
+<p>来发现是什么SQL语句解析效率比较低。程序员可以优化这些语句，或者增加ORACLE参数SESSION_CACHED_CURSORS的值。 </p>
+<p>2、数据库管理员还可以通过下述语句： </p>
+<p>SELECT BUFFER_GETS, EXECUTIONS, SQL_TEXT FROM V$SQLAREA; </p>
+<p>查看低效率的SQL语句，优化这些语句也有助于提高CPU的利用率。 </p>
+<p>3、数据库管理员可以通过v$system_event数据字典中的“latch free”统计项查看ORACLE数据库的冲突情况，如果没有冲突的话，latch free查询出来没有结果。如果冲突太大的话，数据库管理员可以降低spin_count参数值，来消除高的CPU使用率。 </p>
+<p>内存参数的调整 </p>
+<p>内存参数的调整主要是指ORACLE数据库的系统全局区（SGA）的调整。SGA主要由三部分构成：共享池、数据缓冲区、日志缓冲区。 </p>
+<p>1、   共享池由两部分构成：共享SQL区和数据字典缓冲区，共享SQL区是存放用户SQL命令的区域，数据字典缓冲区存放数据库运行的动态信息。数据库管理员通过执行下述语句： </p>
+<p>select (sum(pins - reloads)) / sum(pins) “Lib Cache”  from v$librarycache; </p>
+<p>来查看共享SQL区的使用率。这个使用率应该在90％以上，否则需要增加共享池的大小。数据库管理员还可以执行下述语句： </p>
+<p>select (sum(gets - getmisses - usage - fixed)) / sum(gets) “Row Cache” from v$rowcache; </p>
+<p>查看数据字典缓冲区的使用率，这个使用率也应该在90％以上，否则需要增加共享池的大小。 </p>
+<p> 2、   数据缓冲区。数据库管理员可以通过下述语句： </p>
+<p>SELECT name, value  FROM v$sysstat  WHERE name IN (‘db block gets’, ‘consistent gets’,’physical reads’); </p>
+<p>来查看数据库数据缓冲区的使用情况。查询出来的结果可以计算出来数据缓冲区的使用命中率＝1 - ( physical reads / (db block gets + consistent gets) )。 </p>
+<p>这个命中率应该在90％以上，否则需要增加数据缓冲区的大小。 </p>
+<p>3、   日志缓冲区。数据库管理员可以通过执行下述语句： </p>
+<p>select name,value from v$sysstat where name in (‘redo entries’,’redo log space requests’);查看日志缓冲区的使用情况。查询出的结果可以计算出日志缓冲区的申请失败率： </p>
+<p>申请失败率＝requests/entries，申请失败率应该接近于0，否则说明日志缓冲区开设太小，需要增加ORACLE数据库的日志缓冲区。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/04/12/web_first/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          浅析web程序性能优化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/01/01/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="db_youhua" data-title="数据库优化之我见" data-url="http://yolynn.com/2012/09/22/db_youhua/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 yolynn
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
